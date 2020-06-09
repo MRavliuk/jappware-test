@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="card card-body">
+        <h2 class="card-title text-primary">Add new member:</h2>
+        <form #form="ngForm" (ngSubmit)="addMember()">
+            <div class="form-group">
+                <label for="firstName">First name:</label>
+                <input type="text"
+                       class="form-control"
+                       name="firstName"
+                       [(ngModel)]="member.firstName"
+                       id="firstName"
+                       #memberFirstName="ngModel"
+                       required
+                >
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last name:</label>
+                <input type="text"
+                       class="form-control"
+                       name="lastName"
+                       [(ngModel)]="member.lastName"
+                       id="lastName"
+                       #memberFirstName="ngModel"
+                       required
+                >
+            </div>
+            <button class="btn btn-primary" [disabled]="!member.firstName || !member.lastName">Save</button>
+        </form>
+    </div>
+</div>

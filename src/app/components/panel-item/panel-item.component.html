@@ -1,0 +1,18 @@
+<div class="card card-body m-2" 
+     [ngClass]="{ 
+        'bg-success': member.type === 'Full Members',
+        'bg-warning': member.type === 'Pending Members', 
+        'bg-danger': member.type === 'Deactivated Members'
+     }"
+>
+    <div class="card-title">
+        <span class="mr-2">{{member.firstName}}</span>
+        <span>{{member.lastName}}</span>
+    </div>
+    <span>{{member.type}}</span>
+    <div class="bg-light p-3 d-flex justify-content-center mt-5">
+        <button class="btn btn-success" (click)="addToList()" *ngIf="isAdding">Add to list</button>
+        <a class="btn btn-warning ml-2" routerLink='/members/{{member.id}}'>Edit</a>
+        <button class="btn btn-danger ml-2" (click)="deleteOneMember()">Delete</button>
+    </div>
+</div>

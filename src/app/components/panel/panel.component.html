@@ -1,0 +1,60 @@
+<div class="container mt-3">
+    <a routerLink="/addmember" class="btn btn-primary mb-3">+ new member</a>
+    <button class="btn btn-primary ml-2 mb-3" (click)="isAdding = !isAdding" *ngIf="!isAdding">Start adding</button>
+    <button class="btn btn-success ml-2 mb-3" (click)="countMembers(); isAdding = !isAdding" *ngIf="isAdding">Save list</button>
+    <button class="btn btn-danger ml-2 mb-3" (click)="clearList(); isAdding = true">Clear list</button>
+    <div class="row d-flex justify-content-center">
+        <app-panel-item *ngFor="let member of members; trackBy: identify" 
+                        [member]="member" 
+                        [isAdding]="isAdding"
+                        (add)="addMemberToList($event)" 
+                        (delete)="deleteMember($event)" 
+                        (edit)="editMember($event)">
+        </app-panel-item>
+    </div>
+</div>
+<hr>
+<div class="container mt-3" *ngIf="listMembers.length">
+    <h2 class="card-title text-primary">Choosed members:</h2>
+    <h3 class="card-title text-primary">All members: {{ invitedMembers }}</h3>
+    <h3 class="card-title text-primary">Active members: {{ activeMembers }}</h3>
+    <div class="input-group mb-3" *ngIf="!isStatus">
+        <div class="input-group-prepend">
+            <button class="btn btn-outline-success" type="button" (click)="editStatus(); isStatus = !isStatus">Save status</button>
+        </div>
+        <form #form="ngForm">
+            <select class="custom-select" 
+                    id="inputGroupSelect" 
+                    name="memberNewStatus"
+                    [(ngModel)]="memberNewStatus"
+                    #memberStatus="ngModel"
+            >
+                <option value="Full Members">Full Members</option>
+                <option value="Pending Members">Pending Members</option>
+                <option value="Deactivated Members">Deactivated Members</option>
+            </select>
+        </form>
+    </div>
+    
+    <div class="row d-flex justify-content-center">
+        <div *ngFor="let listMember of listMembers; index as i; trackBy: identify">
+            <div class="card card-body m-2" 
+                 [ngClass]="{ 
+                    'bg-success': listMember.type === 'Full Members',
+                    'bg-warning': listMember.type === 'Pending Members', 
+                    'bg-danger': listMember.type === 'Deactivated Members'
+                 }"
+            >
+                <div class="card-title">
+                    <span class="mr-2">{{ listMember.firstName }}</span>
+                    <span>{{ listMember.lastName }}</span>
+                </div>
+                <span>{{ listMember.type }}</span>
+                <div class="bg-light p-3 d-flex justify-content-center mt-5">
+                    <button class="btn btn-danger" (click)="removeFromList(i); isAdding = true">Remove</button>
+                    <button class="btn btn-warning ml-2" (click)="currentListMember = i; isStatus = !isStatus; isAdding = true" *ngIf="isStatus">Edit status</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
